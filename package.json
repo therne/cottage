@@ -1,0 +1,30 @@
+{
+  "name": "cottage",
+  "version": "1.0.0",
+  "description": "Express style routing framework on koa.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/retail3210/cottage"
+  },
+  "keywords": [
+    "koa",
+    "express",
+    "router",
+    "coroutine",
+    "middleware"
+  ],
+  "author": "Hyojun Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/retail3210/cottage/issues"
+  },
+  "homepage": "https://github.com/retail3210/cottage",
+  "dependencies": {
+    "koa-compose": "^2.3.0",
+    "methods": "^1.1.1"
+  }
+}

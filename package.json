@@ -4,7 +4,7 @@
   "description": "Express style routing framework on koa.js.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,11 @@
     "url": "https://github.com/retail3210/cottage/issues"
   },
   "homepage": "https://github.com/retail3210/cottage",
+  "devDependencies": {
+    "co": "^4.5.4",
+    "delegates": "^0.1.0",
+    "should": "^6.0.3"
+  },
   "dependencies": {
     "koa-compose": "^2.3.0",
     "methods": "^1.1.1"

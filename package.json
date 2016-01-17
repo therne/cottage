@@ -1,85 +1,36 @@
 {
-  "_args": [
-    [
-      "cottage@2.0.0",
-      "/Users/vista/temp"
-    ]
-  ],
-  "_from": "cottage@2.0.0",
-  "_id": "cottage@2.0.0",
-  "_inCache": true,
-  "_installable": true,
-  "_location": "/cottage",
-  "_nodeVersion": "5.2.0",
-  "_npmUser": {
-    "email": "retail3210@gmail.com",
-    "name": "vista"
-  },
-  "_npmVersion": "3.3.12",
-  "_phantomChildren": {},
-  "_requested": {
-    "name": "cottage",
-    "raw": "cottage@2.0.0",
-    "rawSpec": "2.0.0",
-    "scope": null,
-    "spec": "2.0.0",
-    "type": "version"
-  },
-  "_requiredBy": [
-    "#USER"
-  ],
-  "_shasum": "c5c22d5b5743418f91e1945046250c1c689f9bac",
-  "_shrinkwrap": null,
-  "_spec": "cottage@2.0.0",
-  "_where": "/Users/vista/temp",
-  "author": {
-    "name": "Hyojun Kim"
-  },
-  "bugs": {
-    "url": "https://github.com/retail3210/cottage/issues"
-  },
-  "dependencies": {
-    "koa-compose": "^2.3.0"
-  },
-  "description": "Fastest, Simplest framework on Node.js",
-  "devDependencies": {
-    "async": "^1.4.2",
-    "co": "^4.5.4",
-    "delegates": "^0.1.0",
-    "mocha": "^2.0.1",
-    "should": "^6.0.3"
-  },
-  "directories": {},
-  "dist": {
-    "shasum": "c5c22d5b5743418f91e1945046250c1c689f9bac",
-    "tarball": "http://registry.npmjs.org/cottage/-/cottage-2.0.0.tgz"
-  },
-  "gitHead": "37042190102d9e9425117d36bed0a2858761bf29",
-  "homepage": "https://github.com/retail3210/cottage",
-  "keywords": [
-    "coroutine",
-    "express",
-    "koa",
-    "middleware",
-    "router"
-  ],
-  "license": "MIT",
-  "main": "index.js",
-  "maintainers": [
-    {
-      "name": "vista",
-      "email": "retail3210@gmail.com"
-    }
-  ],
   "name": "cottage",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/retail3210/cottage.git"
-  },
+  "version": "2.0.0",
+  "description": "Express style routing framework on koa.js.",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test"
   },
-  "version": "2.0.0"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/therne/cottage"
+  },
+  "keywords": [
+    "koa",
+    "express",
+    "router",
+    "coroutine",
+    "middleware"
+  ],
+  "author": "Hyojun Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/therne/cottage/issues"
+  },
+  "homepage": "https://github.com/therne/cottage",
+  "devDependencies": {
+    "co": "^4.5.4",
+    "delegates": "^0.1.0",
+    "should": "^6.0.3",
+    "mocha": "^2.0.1"
+  },
+  "dependencies": {
+    "koa-compose": "^2.3.0",
+    "methods": "^1.1.1"
+  }
 }

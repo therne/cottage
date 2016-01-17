@@ -24,10 +24,12 @@
   },
   "homepage": "https://github.com/therne/cottage",
   "devDependencies": {
+    "async": "^1.5.2",
     "co": "^4.5.4",
     "delegates": "^0.1.0",
-    "should": "^6.0.3",
-    "mocha": "^2.0.1"
+    "koa": "^1.1.2",
+    "mocha": "^2.0.1",
+    "should": "^6.0.3"
   },
   "dependencies": {
     "koa-compose": "^2.3.0",

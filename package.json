@@ -28,7 +28,7 @@
     "co": "^4.5.4",
     "delegates": "^0.1.0",
     "koa": "^1.1.2",
-    "mocha": "^2.0.1",
+    "mocha": "^2.3.2",
     "should": "^6.0.3"
   },
   "dependencies": {

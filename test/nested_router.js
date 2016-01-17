@@ -1,29 +1,30 @@
 
 var cottage = require('..');
 var simulate = require('./testutil');
-var util = require('util');
 
 var app = cottage();
 var NOT_FOUND = '<h1>Not Found</h1><p>The URL you requested was not found.</p>';
 
-app.get('/', function*() {
-    return "Root"
+var root = cottage();
+root.get('/', function*() {
+    return "Root";
 });
+app.use('/', root);
 
-app.post('/user', function*() {
+var user = cottage();
+
+user.post('/', function*() {
     return "New User"
 });
 
-app.get('/user/:id', function*(req) {
+user.get('/:id', function*(req) {
     return "id is " + req.params.id;
 });
 
-app.get('/user/:id/:id2/:id3/:id4', function*(req) {
-    return util.format("%s %s %s %s", req.params.id, req.params.id2, req.params.id3,
-        req.params.id4);
-});
+app.use('/user', user);
 
-describe('Router', function(){
+
+describe('Nested Router', function(){
     it('should return "Root" when GET / request sent', function(done){
         simulate(app, done, 'GET', '/', function(res) {
             res.assert(200, 'Root');
@@ -52,10 +53,5 @@ describe('Router', function(){
         });
     });
 
-    it('should map parameter when GET /user/:id/:id2/:id3/:id4 ', function(done){
-        simulate(app, done, 'GET', '/user/a/bcd/ef/g', function(res) {
-            res.assert(200, 'a bcd ef g');
-            done();
-        });
-    });
 })
+

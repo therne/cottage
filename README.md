@@ -73,22 +73,14 @@ You can do almost the whole things that you've did on the Express.
 ```js
 var router = cottage();
 
-// express-style handler.
 router.get('/', function*(req, res, next) {
-    // Difference from express : 
     // this = koa.Context, req = koa.Request, res = koa.Response, next = Generator
     return 'Hello';
 });
 
-// middleware is koa.js style
+// write middleware in Koa.js style
 router.use(function*(next) {
     console.log('Middle man ' + this.request.ip);
-    yield next;
-});
-
-// express-style middleware (BUT NOT COMPATIBLE)
-router.all(function*(req, res, next) {
-    console.log('Middle man ' + req.ip);
     yield next;
 });
 

@@ -55,7 +55,7 @@ module.exports = function simulateRequest(app, done, method, path, callback) {
     delegate(context, 'response')
         .access('body')
         .access('status');
-    
+
     // simulate middleware composition / writing
     co.wrap(function*() {
         return yield* app.call(this, noMatch()); 

@@ -4,6 +4,15 @@ var simulate = require('./testutil');
 
 // Router
 var app = cottage();
+
+app.use(function* testStart(next) {
+    this.test = true;
+    yield next;
+});
+
+app.get('/passing', function*() {
+    return 'The value is ' + this.test;
+})
 app.use(function* firstLast(next) {
     this.body = '1';
     yield next;
@@ -45,6 +54,14 @@ app.use(function* noMatch(next) {
 
 // Test 
 describe('Middleware', function(){
+    it('should pass context.test=true value to the route', function(done){
+        simulate(app, done, 'GET', '/passing', function(res) {
+            res.assert(200, 'The value is true');
+            done();
+        });
+    });
+
+
     it('should matched 12xL order with GET /afterSecond', function(done){
         simulate(app, done, 'GET', '/afterSecond', function(res) {
             res.assert(200, '12xL');

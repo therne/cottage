@@ -1,12 +1,17 @@
 
-var github = require('./apis/github').api;
-var parse = require('./apis/parse').api;
-var gplus = require('./apis/gplus').api;
-var staticApi = require('./apis/static').api;
 var cottage = require('..');
 var simulate = require('./testutil');
 var crypto = require('crypto');
 var async = require('async');
+
+var testCases = [
+    ['Github', require('./apis/github')],
+    ['Parse', require('./apis/parse')],
+    ['Twitter', require('./apis/twitter')],
+    ['Google+', require('./apis/gplus')],
+    ['Paypal', require('./apis/paypal')],
+    ['static directories', require('./apis/static')],
+];
 
 function restApiTest(data, done) {
     var app = cottage();
@@ -41,19 +46,9 @@ function* handler(req, res) {
 }
 
 describe('API Routing', function() {
-    it ('should route Github API correctly', function(done) {
-        restApiTest(github, done);
-    });
-
-    it ('should route Google+ API correctly', function(done) {
-        restApiTest(gplus, done);
-    });
-
-    it ('should route Parse API correctly', function(done) {
-        restApiTest(parse, done);
-    });
-
-    it ('should route static directory correctly', function(done) {
-        restApiTest(staticApi, done);
+    testCases.forEach(function(tuple) {
+        it('should route ' + tuple[0] + ' API correctly', function(done) {
+            restApiTest(tuple[1].api, done);
+        });
     });
 });

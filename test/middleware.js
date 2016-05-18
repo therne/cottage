@@ -52,6 +52,30 @@ app.use(function* noMatch(next) {
     this.status = 404;
 });
 
+// Yet another router
+var yapp = cottage();
+yapp.get('/',
+    function* md1(next) {
+        this.body = '1';
+        yield next;
+    },
+    function* md2(next) {
+        this.body += '2';
+        yield next;
+    },
+    function* md3(next) {
+        this.body += '3';
+        yield next;
+    },
+    function* md4(next) {
+        this.body += '4';
+        yield next;
+    },
+    function* handle(req, res) {
+        res.body += 'x';
+    }
+);
+
 // Test 
 describe('Middleware', function(){
     it('should pass context.test=true value to the route', function(done){
@@ -86,6 +110,13 @@ describe('Middleware', function(){
     it('should matched 1234NL order with GET /nowhere', function(done){
         simulate(app, done, 'GET', '/nowhere', function(res) {
             res.assert(404, '1234NL');
+            done();
+        });
+    });
+
+    it('should matched 1234x order with multiple handler', function(done){
+        simulate(yapp, done, 'GET', '/', function(res) {
+            res.assert(200, '1234x');
             done();
         });
     });

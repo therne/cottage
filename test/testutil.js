@@ -62,7 +62,7 @@ module.exports = function simulateRequest(app, done, method, path, callback) {
     })
     .call(context)
     .then(function() {
-        callback(context.response);
+        callback.call(context, context.response);
     })
     .catch(done);
 }

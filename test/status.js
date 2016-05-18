@@ -6,10 +6,6 @@ var simulate = require('./testutil');
 
 var app = cottage();
 
-app.get('/customErr', function*() {
-    return Status(500, "It's custom error");
-});
-
 app.get('/predefined', function*() {
     return Status('predefined_something');
 });
@@ -18,16 +14,20 @@ app.get('/nothing', function*() {
     return Status(200);
 });
 
+app.get('/statusWithBody', function*() {
+    return Status(401, 'Custom Body');
+});
+
 describe('Status', function(){
     describe('Routing Test', function() {
-        it('should return 500 when GET /customErr', function(done){
-            simulate(app, done, 'GET', '/customErr', function(res) {
-                res.assert(500, {msg: "It's custom error"});
+        it('should return 401 with body', function(done){
+            simulate(app, done, 'GET', '/statusWithBody', function(res) {
+                res.assert(401, 'Custom Body');
                 done();
             });
         });
 
-        it('should return 200 with no body when GET /nothing', function(done){
+        it('should return 200 with no body', function(done){
             simulate(app, done, 'GET', '/nothing', function(res) {
                 res.assert(200, '');
                 done();
@@ -36,10 +36,9 @@ describe('Status', function(){
     });
     describe('#predefine', function() {
         it('should create predefine_something with no errors', function() {
-            Status.predefine('predefine_something', {
-                status: 401,
+            Status.predefine('predefine_something', 401, {
                 code: 'OH_ERROR',
-                msg: 'Oh Error Error',
+                msg: 'Oh Error Error'
             });
         });
 
@@ -47,8 +46,8 @@ describe('Status', function(){
             var status = Status('predefine_something');
             assert(status);
             status.status.should.equal(401);
-            status.code.should.equal('OH_ERROR');
-            status.msg.should.equal('Oh Error Error');
+            status.body.code.should.equal('OH_ERROR');
+            status.body.msg.should.equal('Oh Error Error');
         });
     })
 })

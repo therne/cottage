@@ -1,24 +1,24 @@
 
 var cottage = require('..');
-var Status = cottage.Status;
+var Response = cottage.Response;
 var assert = require('assert');
 var simulate = require('./testutil');
 
 var app = cottage();
 
 app.get('/predefined', function*() {
-    return Status('predefined_something');
+    return Response('predefined_something');
 });
 
 app.get('/nothing', function*() {
-    return Status(200);
+    return Response(200);
 });
 
 app.get('/statusWithBody', function*() {
-    return Status(401, 'Custom Body');
+    return Response(401, 'Custom Body');
 });
 
-describe('Status', function(){
+describe('Response', function(){
     it('should set response status and body', function(done){
         simulate(app, done, 'GET', '/statusWithBody', function(res) {
             res.assert(401, 'Custom Body');
@@ -34,14 +34,14 @@ describe('Status', function(){
     });
     describe('#predefine', function() {
         it('should predefine response with no errors', function() {
-            Status.predefine('predefine_something', 401, {
+            Response.predefine('predefine_something', 401, {
                 code: 'OH_ERROR',
                 msg: 'Oh Error Error'
             });
         });
 
         it('should resolve predefined response', function() {
-            var status = Status('predefine_something');
+            var status = Response('predefine_something');
             assert(status);
             status.status.should.equal(401);
             status.body.code.should.equal('OH_ERROR');

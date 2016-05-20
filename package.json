@@ -4,7 +4,7 @@
   "description": "Express style routing framework on koa.js.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --harmony test"
+    "test": "mocha --require should --harmony test"
   },
   "repository": {
     "type": "git",

@@ -45,7 +45,7 @@ function* handler(req, res) {
     return 'Correct!';
 }
 
-describe('Routing', function() {
+describe('Router', function() {
     testCases.forEach(function(tuple) {
         it('should serve ' + tuple[0] + ' correctly', function(done) {
             restApiTest(tuple[1].api, done);

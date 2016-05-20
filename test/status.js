@@ -19,30 +19,28 @@ app.get('/statusWithBody', function*() {
 });
 
 describe('Status', function(){
-    describe('Routing Test', function() {
-        it('should return 401 with body', function(done){
-            simulate(app, done, 'GET', '/statusWithBody', function(res) {
-                res.assert(401, 'Custom Body');
-                done();
-            });
+    it('should set response status and body', function(done){
+        simulate(app, done, 'GET', '/statusWithBody', function(res) {
+            res.assert(401, 'Custom Body');
+            done();
         });
+    });
 
-        it('should return 200 with no body', function(done){
-            simulate(app, done, 'GET', '/nothing', function(res) {
-                res.assert(200, '');
-                done();
-            });
+    it('should set response status only', function(done){
+        simulate(app, done, 'GET', '/nothing', function(res) {
+            res.assert(200, '');
+            done();
         });
     });
     describe('#predefine', function() {
-        it('should create predefine_something with no errors', function() {
+        it('should predefine response with no errors', function() {
             Status.predefine('predefine_something', 401, {
                 code: 'OH_ERROR',
                 msg: 'Oh Error Error'
             });
         });
 
-        it('should resolve predefine_something status', function() {
+        it('should resolve predefined response', function() {
             var status = Status('predefine_something');
             assert(status);
             status.status.should.equal(401);

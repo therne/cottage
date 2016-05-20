@@ -24,35 +24,35 @@ app.get('/user/:id/:id2/:id3/:id4', function*(req) {
 });
 
 describe('Router', function(){
-    it('should return "Root" when GET / request sent', function(done){
+    it('should route root path', function(done){
         simulate(app, done, 'GET', '/', function(res) {
             res.assert(200, 'Root');
             done();
         });
     });
 
-    it('should return "New User" when POST /user request sent', function(done){
+    it('should route nested path', function(done){
         simulate(app, done, 'POST', '/user', function(res) {
             res.assert(200, 'New User');
             done();
         });
     });
 
-    it('should return 404 Error when GET /nowhere request sent', function(done){
+    it('can return 404 error', function(done){
         simulate(app, done, 'GET', '/nowhere', function(res) {
             res.assert(404, NOT_FOUND);
             done();
         });
     });
 
-    it('should map parameter when GET /user/:id', function(done){
+    it('should map parameter', function(done){
         simulate(app, done, 'GET', '/user/retail3210', function(res) {
             res.assert(200, 'id is retail3210');
             done();
         });
     });
 
-    it('should map parameter when GET /user/:id/:id2/:id3/:id4 ', function(done){
+    it('should map multiple parameter ', function(done){
         simulate(app, done, 'GET', '/user/a/bcd/ef/g', function(res) {
             res.assert(200, 'a bcd ef g');
             done();

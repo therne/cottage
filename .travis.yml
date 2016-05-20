@@ -1,6 +1,10 @@
 language: node_js
 node_js:
-  - "4.1"
-  - "4.0"
+  - "6"
+  - "5"
+  - "5.0"
+  - "4"
   - "0.12"
-  - "iojs"
+  - "iojs-v1"
+  - "iojs-v2"
+  - "iojs-v3"

@@ -24,34 +24,66 @@ user.get('/:id', function*(req) {
 app.use('/user', user);
 
 
+var middleApp = cottage();
+middleApp.use(function*(next) {
+    this.body += "M3 ";
+    yield next;
+});
+
+middleApp.use(function*(next) {
+    this.body += "M4 ";
+    yield next;
+});
+
+middleApp.get('/middle/ware', function*() {
+    this.body += 'E';
+});
+
+app.use(function*(next) {
+    this.body = 'M1 ';
+    yield next;
+});
+
+app.use(function*(next) {
+    this.body += 'M2 ';
+    yield next;
+});
+
+app.use('/middletest/', middleApp);
+
 describe('Nested Router', function(){
-    it('should return "Root" when GET / request sent', function(done){
+    it('should route root path', function(done){
         simulate(app, done, 'GET', '/', function(res) {
             res.assert(200, 'Root');
             done();
         });
     });
 
-    it('should return "New User" when POST /user request sent', function(done){
+    it('should route nested path', function(done){
         simulate(app, done, 'POST', '/user', function(res) {
             res.assert(200, 'New User');
             done();
         });
     });
 
-    it('should return 404 Error when GET /nowhere request sent', function(done){
+    it('can return 404 Error', function(done){
         simulate(app, done, 'GET', '/nowhere', function(res) {
             res.assert(404, NOT_FOUND);
             done();
         });
     });
 
-    it('should map parameter when GET /user/:id', function(done){
+    it('should map parameter ', function(done){
         simulate(app, done, 'GET', '/user/retail3210', function(res) {
             res.assert(200, 'id is retail3210');
             done();
         });
     });
 
+    it('should execute middlewares', function(done) {
+        simulate(app, done, 'GET', '/middletest/middle/ware', function(res) {
+            res.assert(200, 'M1 M2 M3 M4 E');
+            done();
+        });
+    });
 })
-

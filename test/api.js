@@ -5,11 +5,11 @@ var crypto = require('crypto');
 var async = require('async');
 
 var testCases = [
-    ['Github', require('./apis/github')],
-    ['Parse', require('./apis/parse')],
-    ['Twitter', require('./apis/twitter')],
-    ['Google+', require('./apis/gplus')],
-    ['Paypal', require('./apis/paypal')],
+    ['Paypal API', require('./apis/paypal')],
+    ['Github API', require('./apis/github')],
+    ['Twitter API', require('./apis/twitter')],
+    ['Google+ API', require('./apis/gplus')],
+    ['all APIs merged', require('./apis/merged')],
     ['static directories', require('./apis/static')],
 ];
 
@@ -45,9 +45,9 @@ function* handler(req, res) {
     return 'Correct!';
 }
 
-describe('API Routing', function() {
+describe('Routing', function() {
     testCases.forEach(function(tuple) {
-        it('should route ' + tuple[0] + ' API correctly', function(done) {
+        it('should serve ' + tuple[0] + ' correctly', function(done) {
             restApiTest(tuple[1].api, done);
         });
     });

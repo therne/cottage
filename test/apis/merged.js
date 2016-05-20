@@ -417,4 +417,4 @@ var routes = [
     "/trends/closest",
 ];
 
-exports.api = routes.map(x => ['GET', x]);
+exports.api = routes.map(function(x) { return ['GET', x] });

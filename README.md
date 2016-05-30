@@ -27,7 +27,7 @@ app.get('/user/:id', function*(req) {
 
 app.all(function*(req) {
     return 404;
-})
+});
 
 // start server
 var koa = require('koa');

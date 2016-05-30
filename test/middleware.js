@@ -91,6 +91,21 @@ describe('Middleware', function(){
         });
     });
 
+    it('should strip path prefix for "mounted" middleware', function(done){
+        var prefApp = cottage();
+        prefApp.use('/some/', function*(next) {
+            this.body = this.path;
+            yield next;
+        });
+        prefApp.get('/some/path', function*(req, res) {
+            res.body += ' ' + req.path;
+        });
+        simulate(prefApp, done, 'GET', '/some/path', function(res) {
+            res.assert(200, '/path /some/path');
+            done();
+        });
+    });
+
     it("as multiple handler should matched with correct order", function(done){
         var mapp = cottage();
         mapp.get('/',

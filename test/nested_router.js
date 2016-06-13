@@ -67,8 +67,15 @@ describe('Nested Router', function(){
     });
 
     it('can return 404 Error', function(done){
-        simulate(app, done, 'GET', '/nowhere', function(res) {
-            res.assert(404, NOT_FOUND);
+        let noapp = cottage();
+        let noappSub = cottage();
+        noapp.setNotFoundHandler(function*(next) {
+            this.response.res.body = 'nowhere man';
+            yield *next;
+        });
+        noapp.use('/nowhere', noappSub);
+        simulate(noapp, done, 'GET', '/nahe', function(res) {
+            res.assert(404, 'nowhere man');
             done();
         });
     });

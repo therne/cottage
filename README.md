@@ -1,4 +1,6 @@
 # Cottage
+
+[![Join the chat at https://gitter.im/therne/cottage](https://badges.gitter.im/therne/cottage.svg)](https://gitter.im/therne/cottage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Cottage is the [Express](http://expressjs.com) style lightweight API routing framework on [koa.js](https://github.com/koajs/koa).<br>
 
 ```

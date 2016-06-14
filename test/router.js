@@ -46,7 +46,7 @@ describe('Router', function(){
     });
 
     it('can have duplicated handler', function(done) {
-        let app = cottage();
+        var app = cottage();
 
         app.get('/duplicated', function*(req, res, next) {
             res.body = 'First ';

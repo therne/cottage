@@ -2,8 +2,8 @@
 var cottage = require('..');
 var simulate = require('./testutil');
 
+// build large test app
 var app = cottage();
-var NOT_FOUND = '<h1>Not Found</h1><p>The URL you requested was not found.</p>';
 
 var root = cottage();
 root.get('/', function*() {
@@ -67,8 +67,8 @@ describe('Nested Router', function(){
     });
 
     it('can return 404 Error', function(done){
-        let noapp = cottage();
-        let noappSub = cottage();
+        var noapp = cottage();
+        var noappSub = cottage();
         noapp.setNotFoundHandler(function*(next) {
             this.response.res.body = 'nowhere man';
             yield *next;

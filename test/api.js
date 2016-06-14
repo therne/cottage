@@ -22,7 +22,7 @@ function restApiTest(data, done) {
     async.forEach(data, function(route, next) {
         var url = makeTestableUrl(route[1]);
         simulate(app, next, route[0], url, function(res) {
-            res.status.should.equal(200, `expected ${route[1]} to be served`);
+            res.status.should.equal(200, 'expected ' + route[1] + ' to be served');
             res.body.should.equal(route[1]);
             next();
         })

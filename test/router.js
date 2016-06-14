@@ -47,9 +47,13 @@ describe('Router', function(){
 
     it('can handle error', function(done) {
         var errApp = cottage();
-        errApp.setErrorHandler(function*(err) {
-            this.status = 500;
-            this.body = 'Error';
+        errApp.use(function*(next) {
+            try {
+                yield next;
+            } catch (err) {
+                this.status = 500;
+                this.body = 'Error';
+            }
         });
         errApp.get('/', function*() { throw Error(); });
         simulate(errApp, done, 'GET', '/', function(res) {

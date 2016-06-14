@@ -1,9 +1,9 @@
 'use strict';
 
-var Router = require('./lib/router');
+var Application = require('./lib/application');
 var Response = require('./lib/response');
 
-exports = module.exports = Router;
+exports = module.exports = Application;
 exports.Response = Response;
 
 Object.defineProperty(module.exports, 'Status', {

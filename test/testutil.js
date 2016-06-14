@@ -58,7 +58,7 @@ module.exports = function simulateRequest(app, done, method, path, callback) {
 
     // simulate middleware composition / writing
     co.wrap(function*() {
-        return yield* app.call(this, noMatch()); 
+        return yield* app.callback().call(this, noMatch());
     })
     .call(context)
     .then(function() {

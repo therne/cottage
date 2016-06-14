@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Cottage</title>
+    <style>
+      body {
+        margin: 0;
+        background: #ededed;
+        font: 17px 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+        font-weight: 300;
+      }
+      header {
+        background: #aa825a;
+        text-align: center;
+      }
+      .header {
+        width: 610px;
+        margin: 110px 0 110px 0; 
+        text-align: center;
+        display: inline-block;
+      }
+      .logo {
+        margin-bottom: 36px;
+      }
+      code {
+        display: block;
+        margin: 0;
+        text-align: left;
+        font-family: 'Source Code Pro', 'Monaco', 'Courier', monospace;
+        line-height: 1.4;
+        color: #666666;
+        font-weight: 400;
+        font-size: 16px;
+        background: #e3e3e3;
+        border-radius: 4px;
+        padding: 25px;
+      }
+      li > code {
+        display: inline-block;
+        padding: 3px 6px 3px 6px;
+      }
+
+      .sample-code {
+        color: white;
+        font-weight: 300;
+        background: #8d6c4b;
+        padding: 30px 70px 30px 70px;
+        margin-bottom: 40px;
+        white-space: pre;
+      }
+
+      .subtitle {
+        color: rgba(255,255,255,0.61);
+        letter-spacing: -0.3px;
+        font-size: 23px;
+        margin-bottom: 46px;
+      }
+      .button-container {
+        display: inline-block;        
+      }
+      .btn {
+        display: inline-block;
+        width: 214px;
+        height: 55px;
+        color: #eeeeee;
+        font-size: 21px;
+        line-height: 55px;
+        text-decoration: none;
+        background: #92704d;
+        border-radius: 4px;
+      }
+      .container { text-align: center; }
+      #main {
+        display: inline-block;
+        text-align: left;
+        width: 900px;
+        padding-top: 56px;
+        padding-bottom: 56px;
+        color: #6e6e6e;
+      }
+
+      .high {
+        color: #a5c261;
+      }
+
+      .hljs-string, .hljs-number {
+        color: #75884a !important;
+      }
+      .hljs-built_in {
+          color: #666666 !important;
+      }
+      .hljs-comment {
+          color: #9b9b9b !important;
+      }
+
+      h1 {
+        font-weight: 300;
+        margin-top: 0;
+        font-size: 33px;
+        letter-spacing: -0.5px;
+        color: #272727;
+      }
+      h2, h3 {
+        font-weight: 300;
+        color: #272727;
+      }
+      #main a {
+          color: #6e6e6e;
+      }
+
+    </style>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  </head>
+  <body>
+    <header>
+      <div class="header">
+        <img src="cottage_logo.svg" alt="Cottage" class="logo">
+        <code class="sample-code">let cottage = require(<span class="high">'cottage'</span>)
+let app = cottage()
+
+app.get(<span class="high">'/'</span>, function* (req, res) {
+   return <span class="high">'Hello world!'</span>
+})
+
+app.listen(<span class="high">7600</span>)</code>
+        <p class="subtitle">simplest, fastest web framework for node.js.</p>
+        <div class="button-container">
+          <a href="https://github.com/therne/cottage" class="btn" style="margin-right: 10px;">See at Github</a>
+          <a href="#main" class="btn">Get Started</a>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div id="main"></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+    <script src="markdown.js"></script>
+    <script>
+      $.get('main.md', function(data) {
+        marked.setOptions({
+          highlight: function (code) {
+            if (code.indexOf('npm') != -1) return code;
+            return hljs.highlightAuto(code).value;
+          }
+        });
+        $('#main').html(marked(data));
+      });
+    </script>
+  </body>
+</html>

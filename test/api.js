@@ -16,13 +16,14 @@ var testCases = [
 function restApiTest(data, done) {
     var app = cottage();
     data.forEach(function(route) {
-        app[route[0].toLowerCase()](route[1], handler);
+        app[route[0].toLowerCase()](route[1], function* handler() { return route[1] });
     });
 
     async.forEach(data, function(route, next) {
         var url = makeTestableUrl(route[1]);
         simulate(app, next, route[0], url, function(res) {
-            res.status.should.equal(200);
+            res.status.should.equal(200, `expected ${route[1]} to be served`);
+            res.body.should.equal(route[1]);
             next();
         })
     }, done);
@@ -39,10 +40,6 @@ function randStr(min, max) {
 function makeTestableUrl(url) {
     while (url.indexOf(':') != -1) url = url.replace(/:\w+/, randStr(1, 8));
     return url;
-}
-
-function* handler(req, res) {
-    return 'Correct!';
 }
 
 describe('Router', function() {

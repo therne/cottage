@@ -4,7 +4,8 @@
   "description": "Express style routing framework on koa.js.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require should --harmony test"
+    "test": "mocha --require should --harmony test",
+    "test-travis": "node --harmony node_modules/istanbul/lib/cli.js cover _mocha -- --require should -u exports -R spec --harmony test"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,9 @@
   "devDependencies": {
     "async": "^1.5.2",
     "co": "^4.5.4",
+    "coveralls": "^2.11.9",
     "delegates": "^0.1.0",
+    "istanbul": "^0.4.3",
     "koa": "^1.1.2",
     "mocha": "^2.3.2",
     "should": "^6.0.3"

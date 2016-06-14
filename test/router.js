@@ -45,6 +45,38 @@ describe('Router', function(){
         });
     });
 
+    it('can handle error', function(done) {
+        let errApp = cottage();
+        errApp.setErrorHandler(function*(err) {
+            this.status = 500;
+            this.body = 'Error';
+        });
+        errApp.get('/', function*() { throw Error(); });
+        simulate(errApp, done, 'GET', '/', function(res) {
+            res.assert(500, 'Error');
+            done();
+        });
+    });
+
+    it('can define route with route()', function(done) {
+        let rouApp = cottage();
+        rouApp.route('/hello')
+            .use(function*(next) {
+                this.body = 'Mid ';
+                yield next;
+            })
+            .get(function*(req, res) {
+                res.body += 'Hi~';
+            });
+
+        simulate(rouApp, done, 'GET', '/hello', function(res) {
+            res.assert(200, 'Mid Hi~');
+            done();
+        });
+    });
+
+
+
     it('can have duplicated handler', function(done) {
         var app = cottage();
 

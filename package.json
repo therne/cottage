@@ -1,6 +1,6 @@
 {
   "name": "cottage",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Express style routing framework on koa.js.",
   "main": "index.js",
   "scripts": {
@@ -12,18 +12,19 @@
     "url": "http://github.com/therne/cottage"
   },
   "keywords": [
+    "framework",
     "koa",
     "express",
     "router",
     "coroutine",
     "middleware"
   ],
-  "author": "Hyojun Kim",
+  "author": "therne",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/therne/cottage/issues"
   },
-  "homepage": "https://github.com/therne/cottage",
+  "homepage": "https://therne.github.io/cottage",
   "devDependencies": {
     "async": "^1.5.2",
     "co": "^4.5.4",

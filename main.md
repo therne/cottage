@@ -1,9 +1,11 @@
 # Installation
-You need Node.js 0.12 or higher.
+You need Node.js 4.0.0 or higher.
 
 ```
 $ npm install --save cottage
 ```
+
+To use it with Node v0.12, you must run node with the --harmony flag.
 
 # Features
 - **Fastest Framework on Node** - See [performance](#performance)  
@@ -12,7 +14,7 @@ $ npm install --save cottage
 - [Additional Sugar Features](#status)
 
 
-### Example
+# Example
 ```js
 const cottage = require('cottage');
 const app = cottage();
@@ -32,24 +34,13 @@ koa().use(app.callback()).listen(8080);
 app.listen(8080);
 ```
 
-### Performance
-*Benchmark have been ran on Intel Xeon E3-1250v3 @ 3.50ghz with Node.js 6.1.0 single instance.*
-*Tested from Github API sample using [wrk][wrk-repo]*
-
-Framework       | Mean Throughput (req/sec) | Stddev |
-----------------|---------------|-----------|
-cottage@2.1.0   | 15130.12      | 142.45    |
-express@4.13.4  | 11455.67      | 201.95    |
-koa-router@5.4.0| 12279.01      | 157.33    |
-hapi@13.4.1     | 2402.31       | 53.14     |
-
-As the benchmark result shows, cottage is the fastest framework in Node.js.
-
-#### Why?
+# Performance
 Cottage uses [Radix Tree][radix-tree-wiki] for URL routing, which is faster than any other data structures.
 Also, cottage uses technique called "middleware precomposition", which precomposes middleware only at first time, not the every runtime.
 
-### Express style, but Koa
+So, cottage is faster than any other Node.js frameworks.
+
+# Express style, but Koa-powered
 You can write down a code just as you've done on the [Express][express-repo],
 but using [generator-based flow control][gen-flow] instead of [dirty callback hell]().
 

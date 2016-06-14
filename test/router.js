@@ -45,6 +45,24 @@ describe('Router', function(){
         });
     });
 
+    it('can have duplicated handler', function(done) {
+        let app = cottage();
+
+        app.get('/duplicated', function*(req, res, next) {
+            res.body = 'First ';
+            yield *next;
+        });
+
+        app.get('/duplicated', function*(req, res) {
+            res.body += 'Second';
+        });
+
+        simulate(app, done, 'GET', '/duplicated', function(res) {
+            res.assert(200, 'First Second');
+            done();
+        });
+    });
+
     it('should map parameter', function(done){
         simulate(app, done, 'GET', '/user/retail3210', function(res) {
             res.assert(200, 'id is retail3210');

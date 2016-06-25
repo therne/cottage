@@ -9,4 +9,5 @@ It needs authorization token of your Slack. It's for find user's name when loggi
  - Install dependency modules with `npm install`.
  - Register Slack Outgoing Webhook with `http://yourdomain:4000/logger`.
  - Get your Slack Token and put it to `setting.json`.
+ - Make `logs` directory.
  - Run it with `node index.js`!

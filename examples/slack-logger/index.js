@@ -1,64 +1,21 @@
 "use strict";
 
 // import base modules
-let co = require("co");
-let request = require("request");
-let cottage = require("cottage");
-let bodyParser = require('koa-bodyparser');
-let serve = require("koa-static");
+const request = require("request");
+const cottage = require("cottage");
+const bodyParser = require('koa-bodyparser');
+const serve = require("koa-static");
 
-let fs = require("fs");
-let path = require("path");
+const fs = require("fs");
+const path = require("path");
+
 let appDir = path.dirname(require.main.filename);
-
 let setting = require("./setting.json");
 
 // using bodyparser and static serving
-let app = cottage();
+const app = cottage();
 app.use(bodyParser());
 app.use(serve("."));
-
-/**
- * Formatting Date with simple string
- *
- * @param f         format string
- * @returns {*}     formatted date string
- */
-Date.prototype.format = function (f) {
-    if (!this.valueOf()) return " ";
-    var d = this, h;
-    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1) {
-        switch ($1) {
-            case "yyyy": return d.getFullYear();
-            case "yy": return (d.getFullYear() % 1000).zf(2);
-            case "MM": return (d.getMonth() + 1).zf(2);
-            case "dd": return d.getDate().zf(2);
-            case "HH": return d.getHours().zf(2);
-            case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);
-            case "mm": return d.getMinutes().zf(2);
-            case "ss": return d.getSeconds().zf(2);
-            default: return $1;
-        }
-    });
-};
-
-String.prototype.string = function (len) {
-    var s = '', i = 0;
-    while (i++ < len) s += this;
-    return s;
-};
-
-String.prototype.zf = function (len) {
-    return "0".string(len - this.length) + this;
-};
-
-String.prototype.replaceAll = function (target, replacement) {
-    return this.split(target).join(replacement);
-};
-
-Number.prototype.zf = function (len) {
-    return this.toString().zf(len);
-};
 
 /**
  * Get User's Real username. It needs for when logging mentions.
@@ -77,8 +34,14 @@ function getUserName (token, userId) {
     });
 }
 
-function getFilePath (channelName) {
-    return `${appDir}/logs/${channelName}.log`;
+function formatText (str, len) {
+    function string (str, len) {
+        var s = '', i = 0;
+        while (i++ < len) s += str;
+        return s;
+    }
+
+    return string("0", len - str.length) + str;
 }
 
 function writeToFile (path, data) {
@@ -96,17 +59,15 @@ function writeToFile (path, data) {
 // HTTP POST /logger
 // Register this link for Slack Outgoing Webhook.
 app.post("/logger", function *(req) {
-    console.log(req.body);
-
     let userName = req.body.user_name;
     let text = req.body.text;
     let channelName = req.body.channel_name;
     let timestamp = req.body.timestamp;
 
-    let formatDate = new Date(timestamp * 1000).format("yyyyMMdd HH:mm:ss");
+    let date = new Date(timestamp * 1000)
+    let formatDate = `${d.getFullYear()}${formatText(String(d.getMonth() + 1), 2)}${formatText(String(d.getDate()), 2)}`
 
     let regexp = text.match(/<@(U[A-Z0-9]{8})>/g);
-    
     let userIds = (regexp != undefined)? regexp.map(obj => 
             obj.replaceAll("<", "").replaceAll(">", "").replaceAll("@", "")): [];
 
@@ -119,13 +80,7 @@ app.post("/logger", function *(req) {
         if (userNames.hasOwnProperty(userName))
             data = data.replaceAll(userName, userNames[userName]);
 
-    const path = getFilePath(channelName, appDir);
-    writeToFile(path, data);
-});
-
-// you can use whole request mapping.
-app.all(function *(req) {
-    return 404;
+    writeToFile(`${appDir}/logs/${channelName}.log`, data);
 });
 
 app.listen(4000);

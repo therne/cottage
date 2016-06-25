@@ -1,12 +1,11 @@
 "use strict";
 
 // import base modules
-let cottage = require("cottage");
-let bodyParser = require('koa-bodyparser');
+const cottage = require("cottage");
+const bodyParser = require('koa-bodyparser');
+const setting = require("./setting.json");
+const database = require("./database.js");
 
-// import setting, database module
-let setting = require("./setting.json");
-let database = require("./database.js");
 let Memo = database.model("Memo");
 let ObjectId = database.Types.ObjectId;
 
@@ -15,25 +14,29 @@ let app = cottage({ caseSensitive: true });
 app.use(bodyParser());
 
 function findProperties (array, object) {
-	var returnVal = true;
-	for (let val of array) if (!object.hasOwnProperty(val)) returnVal = false;
+    var returnVal = true;
+    for (let val of array) if (!object.hasOwnProperty(val)) returnVal = false;
     return returnVal;
 }
 
+function checkNullOrUndefined (obj) {
+    return (obj === undefined || obj === null);
+}
+
 app.get("/memo", function *(req, res) {
-	// Check validation
-	if (!findProperties(["length", "pageNo"], req.body)) {
+    // Check validation
+    if (!findProperties(["length", "pageNo"], req.body)) {
         res.status = 412;
         return;
     }
 
     let length = parseInt(req.body.length);
-	let offset = (parseInt(req.body.pageNo) - 1) * length;
-	return yield Memo.find({}, null, { skip: offset, limit: length });
+    let offset = (parseInt(req.body.pageNo) - 1) * length;
+    return yield Memo.find({}, null, { skip: offset, limit: length });
 });
 
 app.get("/memo/:memoId", function *(req, res) {
-	return yield Memo.findById(new ObjectId(req.params.memoId));
+    return yield Memo.findById(ObjectId(req.params.memoId));
 });
 
 app.post("/memo", function *(req, res) {
@@ -42,7 +45,7 @@ app.post("/memo", function *(req, res) {
         res.status = 412;
         return;
     }
- 
+    
     let memo = new Memo({
         title: req.body.title,
         data: req.body.data
@@ -53,9 +56,9 @@ app.post("/memo", function *(req, res) {
 });
 
 app.patch("/memo/:memoId", function *(req, res) {
-    var memo = yield Memo.findById(new ObjectId(req.params.memoId));
+    var memo = yield Memo.findById(ObjectId(req.params.memoId));
 
-    if (memo === undefined || memo === null) {
+    if (checkNullOrUndefined(memo)) {
         res.code = 404;
         return;
     }
@@ -70,7 +73,7 @@ app.patch("/memo/:memoId", function *(req, res) {
 app.delete("/memo/:memoId", function *(req, res) {
     var memo = yield Memo.findById(new ObjectId(req.params.memoId));
 
-    if (memo === undefined || memo === null) {
+    if (checkNullOrUndefined(memo)) {
         res.code = 404;
         return;
     }

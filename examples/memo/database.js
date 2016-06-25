@@ -1,8 +1,8 @@
 "use strict";
 
 // import modules and setting
-let setting = require("./setting.json")
-let mongoose = require("mongoose");
+const setting = require("./setting.json")
+const mongoose = require("mongoose");
 
 // define database model
 let Memo = mongoose.model("Memo", {

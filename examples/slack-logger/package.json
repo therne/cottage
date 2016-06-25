@@ -1,0 +1,13 @@
+{
+    "name": "Slack-Logger",
+    "version": "1.0.0",
+    "description": "Slack Bot for logging all messages by Outgoing Webhook.",
+    "author": "Haze Lee",
+    "main": "index.js",
+    "dependencies": {
+        "cottage": "2.1.0",
+        "koa-bodyparser": "2.2.0",
+        "koa-static": "2.0.0",
+        "request": "*"
+    }
+}

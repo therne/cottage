@@ -1,0 +1,12 @@
+{
+    "name": "cottage-example-memo",
+    "version": "1.0.0",
+    "description": "Simple Example RESTful API Server with Cottage( and Mongoose).",
+    "author": "Haze Lee",
+    "main": "index.js",
+    "dependencies": {
+        "cottage": "2.1.0",
+        "koa-bodyparser": "2.2.0",
+        "mongoose": "*"
+    }
+}

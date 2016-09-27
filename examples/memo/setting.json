@@ -1,0 +1,4 @@
+{
+	"mongo": "mongodb://localhost/test_memo",
+	"port": 4000
+}

@@ -1,7 +1,7 @@
 {
   "name": "cottage",
-  "version": "2.1.0",
-  "description": "Express style routing framework on koa.js.",
+  "version": "2.1.1",
+  "description": "Simple, fastest web framework built on the top of koa.js. ",
   "main": "index.js",
   "scripts": {
     "test": "mocha --require should --harmony test",

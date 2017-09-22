@@ -1,13 +1,12 @@
-'use strict';
 
-var Application = require('./lib/application');
-var Response = require('./lib/response');
+const Application = require('./lib/application');
+const Response = require('./lib/response');
 
 module.exports = Application;
-exports.Response = Response;
+module.exports.Response = Response;
 
 Object.defineProperty(module.exports, 'Status', {
-    get: function() {
+    get() {
         console.warn('cottage: Warning: Status is deprecated. use cottage.Response instead');
         return Response;
     }

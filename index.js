@@ -3,7 +3,7 @@
 var Application = require('./lib/application');
 var Response = require('./lib/response');
 
-exports = module.exports = Application;
+module.exports = Application;
 exports.Response = Response;
 
 Object.defineProperty(module.exports, 'Status', {

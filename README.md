@@ -8,8 +8,8 @@
 Cottage is the fastest, simple, and intuitive server framework built on [Koa.js](http://koajs.com).<br>
 
 - **Fastest Framework on Node** - See [performance](#performance)
-- **100% Koa.js compatible** - You can use all plugins and modules of koa.
-- Simple code - Aren't you tired using `res.send` or `this.body`? Why can't we just `return` the response?
+- **100% Koa.js compatible** - You can use all plugins and modules of Koa v2.
+- Simple code - Aren't you tired using `res.send` or `ctx.body`? Why can't we just `return` the response?
 - [Additional Sugar Features](#status)
 
 ### Installation
@@ -17,16 +17,18 @@ Cottage is the fastest, simple, and intuitive server framework built on [Koa.js]
 $ npm install --save cottage
 ```
 
-Cottage requires [iojs](https://iojs.org) or [Node](http://nodejs.org) v4.0.0 or higher.  
-To use it with Node v0.12, you must run `node` with the `--harmony` flag.
+Cottage requires [Node](http://nodejs.org) v7.6.0 or higher.
+To use it with older versions, you must use Babel's [require hook](http://babeljs.io/docs/usage/babel-register/) to transpile code.
 
 ### Example
 ```js
-const cottage = require('cottage');
-const app = cottage();
+const Cottage = require('cottage');
+const app = new Cottage();
 
-app.get('/hello', function*(req, res) {
-    let hello = yield asyncHello();
+app.post('/', async () => 'Hello world!');
+
+app.get('/hello', async ctx => {
+    const hello = await asyncHello();
     return hello; // just return data
 });
 
@@ -34,9 +36,9 @@ app.get('/hello', function*(req, res) {
 app.use(koaMiddleware());
 
 // because cottage is built on the top of Koa.
-koa().use(app.callback()).listen(8080);
+(new Koa).use(app.callback()).listen(8080);
 
-// simple shorthand without importing koa.
+// simple shorthand without importing Koa.
 app.listen(8080);
 ```
 
@@ -56,19 +58,6 @@ As the benchmark result shows, cottage is the fastest framework in Node.js.
 #### Why?
 Cottage uses [Radix Tree][radix-tree-wiki] for URL routing, which is faster than any other data structures.
 Also, cottage uses technique called "middleware precomposition", which precomposes middleware only at first time, not the every runtime.
-
-### Express style, but Koa
-You can write down a code just as you've done on the [Express][express-repo],
-but using [generator-based flow control][gen-flow] instead of [dirty callback hell]().
-
-**NOTE THAT** It may look exactly like Express handler, but it's very different:
-```js
-function* (req, res, next) { }
-```
-- `req` is [`koa.Request`](http://koajs.com/#request)
-- `res` is [`koa.Response`](http://koajs.com/#response)
-- `next` is a `Generator` that points next middlewares
-- `this` is [`koa.Context`](http://koajs.com/#context)
 
 ## Documentations
 - API Documentation *(Currently Working)*

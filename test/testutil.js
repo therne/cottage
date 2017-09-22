@@ -1,26 +1,14 @@
 
-var co = require('co');
-var delegate = require('delegates');
+const delegate = require('delegates');
 
 /**
- * Called when nothing matched.
+ * Simulates Koa.
  */
-function* noMatch(){ }
-
-/**
- * Simulates koa request.
- *
- * @param app Request Handler
- * @param done mocha.js test finishing callback
- * @param method
- * @param path
- * @param callback
- */
-module.exports = function simulateRequest(app, done, method, path, callback) {
-    var context = {
+module.exports = async function simulateRequest(app, method, path) {
+    const context = {
         request: {
-            method: method,
-            path: path,
+            method,
+            path,
             header: [],
             headers: [],
             href: 'http://localhost:8080'+path,
@@ -57,13 +45,13 @@ module.exports = function simulateRequest(app, done, method, path, callback) {
         .access('status');
 
     // simulate middleware composition / writing
-    co.wrap(function*() {
-        return yield* app.callback().call(this, noMatch());
-    })
-    .call(context)
-    .then(function() {
-        callback.call(context, context.response);
-    })
-    .catch(done);
-}
+    await app.callback()(context, noMatch);
 
+    return { ctx: context, res: context.response };
+};
+
+
+/**
+ * Called when nothing matched.
+ */
+async function noMatch(){ }

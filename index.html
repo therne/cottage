@@ -9,6 +9,7 @@
     <meta name="og:description" content="Simplest, fastest web framework for Node.js.">
     <meta name="og:image" content="http://therne.github.io/cottage/cottage_big_logo.png">
     <title>Cottage</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
     <style>
       body {
         margin: 0;
@@ -21,8 +22,8 @@
         text-align: center;
       }
       .header {
-        width: 610px;
-        margin: 110px 0 110px 0;
+        width: 510px;
+        margin: 90px 0 90px 0;
         text-align: center;
         display: inline-block;
       }
@@ -30,16 +31,18 @@
         margin-bottom: 36px;
       }
       code {
+        -webkit-font-smoothing: antialiased;
         display: block;
         margin: 0;
         text-align: left;
         font-family: 'Source Code Pro', 'Monaco', 'Courier', monospace;
-        line-height: 1.4;
+        line-height: 1.5;
         color: #666666;
-        font-weight: 400;
-        font-size: 16px;
+        font-weight: 500;
+        font-size: 18px;
         background: #e3e3e3;
         border-radius: 4px;
+        letter-spacing: -0.3px;
         padding: 25px;
       }
       li > code {
@@ -51,7 +54,7 @@
         color: white;
         font-weight: 300;
         background: #8d6c4b;
-        padding: 30px 70px 30px 70px;
+        padding: 30px 50px 30px 36px;
         margin-bottom: 40px;
         white-space: pre;
       }
@@ -124,13 +127,9 @@
     <header>
       <div class="header">
         <img src="cottage_logo.svg" alt="Cottage" class="logo">
-        <code class="sample-code">let cottage = require(<span class="high">'cottage'</span>)
-let app = cottage()
-
-app.get(<span class="high">'/'</span>, function* (req, res) {
-   return <span class="high">'Hello world!'</span>
-})
-
+        <code class="sample-code">const Cottage = require(<span class="high">'cottage'</span>)
+const app = new Cottage()
+app.get(<span class="high">'/'</span>, async ctx => <span class="high">'Hello world!'</span>)
 app.listen(<span class="high">7600</span>)</code>
         <p class="subtitle">simplest, fastest web framework for node.js.</p>
         <div class="button-container">

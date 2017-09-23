@@ -1,6 +1,6 @@
 {
   "name": "cottage",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Simple, fastest web framework built on the top of koa.js. ",
   "main": "index.js",
   "scripts": {

@@ -28,6 +28,18 @@ describe('A Router', function(){
         res.assert(200, 'New User');
     });
 
+    it('should route any methods to "all" route', async() => {
+        await assertMethod('GET');
+        await assertMethod('POST');
+        await assertMethod('PATCH');
+        await assertMethod('DELETE');
+
+        async function assertMethod(method) {
+            const { res } = await simulate(app, method, '/use');
+            res.assert(200, 'Every methods are allowed.');
+        }
+    });
+
     it('can return 404 error', async () => {
         const { res } = await simulate(app, 'GET', '/nowhere');
         res.assert(404, 'Not Found, man.');

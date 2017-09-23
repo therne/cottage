@@ -23,7 +23,7 @@ describe('A Response', function(){
 
     describe('#predefine', function() {
         it('should predefine response with no errors', function() {
-            Response.predefine('predefine_something', 401, {
+            Response.define('predefine_something', 401, {
                 code: 'OH_ERROR',
                 msg: 'Oh Error Error'
             });

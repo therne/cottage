@@ -27,7 +27,7 @@ middleApp.use(async (ctx, next) => {
     await next();
 });
 
-middleApp.get('/middle/ware', async () => {
+middleApp.get('/middle/ware', async (ctx) => {
     ctx.body += 'E';
 });
 
@@ -57,13 +57,14 @@ describe('Nested Router', function(){
     it('can return 404 Error', async () => {
         const noapp = new Cottage();
         const noappSub = new Cottage();
-        noapp.setNotFoundHandler(async (ctx, next) => {
-            ctx.response.res.body = 'nowhere man';
+        noappSub.setNotFoundHandler(async (ctx, next) => {
+            ctx.response.body = 'nowhere man';
+            ctx.response.status = 404;
             await next();
         });
         noapp.use('/nowhere', noappSub);
 
-        const { res } = await simulate(app, 'GET', '/nahe');
+        const { res } = await simulate(noapp, 'GET', '/nowhere/nahe');
         res.assert(404, 'nowhere man');
     });
 

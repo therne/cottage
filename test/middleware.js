@@ -1,138 +1,131 @@
 
-var cottage = require('..');
-var simulate = require('./testutil');
+const Cottage = require('..');
+const simulate = require('./testutil');
 
 // match order test
-var orderApp = cottage();
+const orderApp = new Cottage();
 
-orderApp.use(function* firstLast(next) {
-    this.body = '1';
-    yield next;
-    // modifying this.body on here causes status to set 200 always.
-    this.response.res.body += 'L'; 
-})
+orderApp.use(async function firstLast(ctx, next) {
+    ctx.body = '1';
+    await next();
 
-orderApp.use(function* second(next) {
-    this.body += '2';
-    yield next;
+    if (ctx.status === 404) {
+        ctx.body += 'L';
+        ctx.status = 404;
+    } else {
+        ctx.body += 'L';
+    }
 });
 
-orderApp.get('/afterSecond', function*(req, res) {
-    res.body += 'x';
+orderApp.use(async function second(ctx, next) {
+    ctx.body += '2';
+    await next();
 });
 
-orderApp.use(function* third(next) {
-    this.body += '3';
-    yield next;
+orderApp.get('/afterSecond', async function(ctx) {
+    ctx.body += 'x';
 });
 
-orderApp.get('/afterThird', function*(req, res) {
-    res.body += 'x';
+orderApp.use(async function third(ctx, next) {
+    ctx.body += '3';
+    await next();
 });
 
-orderApp.use(function* fourth(next) {
-    this.body += '4';
-    yield next;
+orderApp.get('/afterThird', async function(ctx) {
+    ctx.body += 'x';
 });
 
-orderApp.get('/afterFourth', function*(req, res) {
-    res.body += 'x';
+orderApp.use(async function fourth(ctx, next) {
+    ctx.body += '4';
+    await next();
 });
 
-orderApp.use(function* noMatch(next) {
-    this.body += 'N';
-    this.status = 404;
+orderApp.get('/afterFourth', async function(ctx) {
+    ctx.body += 'x';
+});
+
+orderApp.use(async function noMatch(ctx, next) {
+    ctx.body += 'N';
+    ctx.status = 404;
 });
 
 
-// Test 
-describe('Middleware', function(){
-    it('should share same context with handler', function(done){
-        var app = cottage();
-        app.use(function* testStart(next) {
-            this.test = true;
-            yield next;
+// Test
+describe('A Middleware', function(){
+    it('should share same context with handler', async () => {
+        const app = new Cottage();
+        app.use(async function testStart(ctx, next) {
+            ctx.test = true;
+            await next();
         });
-        app.get('/passing', function*() {
-            return 'The value is ' + this.test;
+        app.get('/passing', async function(ctx) {
+            return 'The value is ' + ctx.test;
         });
-        simulate(app, done, 'GET', '/passing', function(res) {
-            res.assert(200, 'The value is true');
-            done();
-        });
+
+        const { res } = await simulate(app, 'GET', '/passing');
+        res.assert(200, 'The value is true');
     });
 
 
-    it('should matched with correct order (1)', function(done){
-        simulate(orderApp, done, 'GET', '/afterSecond', function(res) {
-            res.assert(200, '12xL');
-            done();
-        });
+    it('should matched with correct order (1)', async () => {
+        const { res } = await simulate(orderApp, 'GET', '/afterSecond');
+        res.assert(200, '12xL');
     });
 
-    it('should matched with correct order (2)', function(done){
-        simulate(orderApp, done, 'GET', '/afterThird', function(res) {
-            res.assert(200, '123xL');
-            done();
-        });
+    it('should matched with correct order (2)', async () => {
+        const { res } = await simulate(orderApp, 'GET', '/afterThird');
+        res.assert(200, '123xL');
     });
 
-    it('should matched with correct order (3)', function(done){
-        simulate(orderApp, done, 'GET', '/afterFourth', function(res) {
-            res.assert(200, '1234xL');
-            done();
-        });
+    it('should matched with correct order (3)', async () => {
+        const { res } = await simulate(orderApp, 'GET', '/afterFourth');
+        res.assert(200, '1234xL');
     });
 
-    it('should matched despite 404 error', function(done){
-        simulate(orderApp, done, 'GET', '/nowhere', function(res) {
-            res.assert(404, '1234NL');
-            done();
-        });
+    it('should matched despite 404 error', async () => {
+        const { res } = await simulate(orderApp, 'GET', '/nowhere');
+        res.assert(404, '1234NL');
     });
 
-    it('should strip path prefix for "mounted" middleware', function(done){
-        var prefApp = cottage();
-        prefApp.use('/some/', function*(next) {
-            this.body = this.path;
-            yield next;
+    it('should strip path prefix for "mounted" middleware', async () => {
+        const prefApp = new Cottage();
+        prefApp.use('/some/', async function(ctx, next) {
+            ctx.body = ctx.path;
+            await next();
         });
-        prefApp.get('/some/path', function*(req, res) {
-            res.body += ' ' + req.path;
+        prefApp.get('/some/path', async function(ctx) {
+            ctx.body += ' ' + ctx.path;
         });
-        simulate(prefApp, done, 'GET', '/some/path', function(res) {
-            res.assert(200, '/path /some/path');
-            done();
-        });
+
+        const { res } = await simulate(prefApp, 'GET', '/some/path');
+        res.assert(200, '/path /some/path');
     });
 
-    it("as multiple handler should matched with correct order", function(done){
-        var mapp = cottage();
+    it("as multiple handler should matched with correct order", async () => {
+        const mapp = new Cottage();
         mapp.get('/',
-            function* md1(next) {
-                this.body = '1';
-                yield next;
+            async function md1(ctx, next) {
+                ctx.body = '1';
+                await next();
             },
-            function* md2(next) {
-                this.body += '2';
-                yield next;
+            async function md2(ctx, next) {
+                ctx.body += '2';
+                await next();
             },
-            function* md3(next) {
-                this.body += '3';
-                yield next;
+            async function md3(ctx, next) {
+                ctx.body += '3';
+                await next();
             },
-            function* md4(next) {
-                this.body += '4';
-                yield next;
+            async function md4(ctx, next) {
+                ctx.body += '4';
+                await next();
             },
-            function* handle(req, res) {
-                res.body += 'x';
+            async function handle(ctx) {
+                ctx.body += 'x';
             }
         );
 
-        simulate(mapp, done, 'GET', '/', function(res) {
-            res.assert(200, '1234x');
-            done();
-        });
+        const { res } = await simulate(mapp, 'GET', '/');
+        res.assert(200, '1234x');
     });
-})
+});

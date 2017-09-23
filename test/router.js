@@ -3,13 +3,19 @@ const Cottage = require('..');
 const simulate = require('./testutil');
 
 const app = new Cottage();
-const NOT_FOUND = 'Not Found';
 
 app.get('/', async () => "Root");
 app.post('/user', async () => "New User");
 app.get('/user/:id', async ({request}) => `id is ${request.params.id}`);
 app.get('/user/:id/:id2/:id3/:id4', async ({request}) =>
     `${request.params.id} ${request.params.id2} ${request.params.id3} ${request.params.id4}`);
+app.all('/use', async () => 'Every methods are allowed.');
+
+app.setNotFoundHandler(async (ctx, next) => {
+    ctx.body = 'Not Found, man.';
+    ctx.status = 404;
+    await next();
+});
 
 describe('A Router', function(){
     it('should route root path', async () => {
@@ -24,7 +30,7 @@ describe('A Router', function(){
 
     it('can return 404 error', async () => {
         const { res } = await simulate(app, 'GET', '/nowhere');
-        res.assert(404, NOT_FOUND);
+        res.assert(404, 'Not Found, man.');
     });
 
     it('can handle error', async () => {
@@ -33,11 +39,11 @@ describe('A Router', function(){
             try {
                 await next();
             } catch (err) {
-                ctx.status = 500;
                 ctx.body = 'Error';
+                ctx.status = 500;
             }
         });
-        errApp.get('/', async () => { throw Error(); });
+        errApp.get('/', async () => { throw new Error(); });
 
         const { res } = await simulate(errApp, 'GET', '/');
         res.assert(500, 'Error');

@@ -29,7 +29,7 @@ module.exports = async function simulateRequest(app, method, path) {
                 return this.res.body
             },
             set body(val) {
-                if (this.status == 404) this.status = 200;
+                if (this.status === 404) this.status = 200;
                 this.res.body = val
             },
             type: 'text/plain; charset=utf-8'

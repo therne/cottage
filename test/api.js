@@ -12,10 +12,8 @@ const testCases = [
 ];
 
 describe('A Router', function() {
-
     for (const [caseName, { api }] of testCases) {
         it(`should serve ${caseName} correctly`, async () => {
-
             const app = new Cottage();
             for (const [method, url] of api) {
                 app[method.toLowerCase()](url, async () => url);

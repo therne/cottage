@@ -1,56 +1,58 @@
 const { Cottage } = require('..');
 const simulate = require('./testutil');
 
-// match order test
-const orderApp = new Cottage();
-
-orderApp.use(async function firstLast(ctx, next) {
-    ctx.body = '1';
-    await next();
-
-    if (ctx.status === 404) {
-        ctx.body += 'L';
-        ctx.status = 404;
-    } else {
-        ctx.body += 'L';
-    }
-});
-
-orderApp.use(async function second(ctx, next) {
-    ctx.body += '2';
-    await next();
-});
-
-orderApp.get('/afterSecond', async function(ctx) {
-    ctx.body += 'x';
-});
-
-orderApp.use(async function third(ctx, next) {
-    ctx.body += '3';
-    await next();
-});
-
-orderApp.get('/afterThird', async function(ctx) {
-    ctx.body += 'x';
-});
-
-orderApp.use(async function fourth(ctx, next) {
-    ctx.body += '4';
-    await next();
-});
-
-orderApp.get('/afterFourth', async function(ctx) {
-    ctx.body += 'x';
-});
-
-orderApp.use(async function noMatch(ctx, next) {
-    ctx.body += 'N';
-    ctx.status = 404;
-});
-
-
-// Test
 describe('A Middleware', function(){
+    let orderApp;
+
+    beforeEach(() => {
+        // match order test
+        orderApp = new Cottage();
+
+        orderApp.use(async function firstLast(ctx, next) {
+            ctx.body = '1';
+            await next();
+
+            if (ctx.status === 404) {
+                ctx.body += 'L';
+                ctx.status = 404;
+            } else {
+                ctx.body += 'L';
+            }
+        });
+
+        orderApp.use(async function second(ctx, next) {
+            ctx.body += '2';
+            await next();
+        });
+
+        orderApp.get('/afterSecond', async function(ctx) {
+            ctx.body += 'x';
+        });
+
+        orderApp.use(async function third(ctx, next) {
+            ctx.body += '3';
+            await next();
+        });
+
+        orderApp.get('/afterThird', async function(ctx) {
+            ctx.body += 'x';
+        });
+
+        orderApp.use(async function fourth(ctx, next) {
+            ctx.body += '4';
+            await next();
+        });
+
+        orderApp.get('/afterFourth', async function(ctx) {
+            ctx.body += 'x';
+        });
+
+        orderApp.use(async function noMatch(ctx, next) {
+            ctx.body += 'N';
+            ctx.status = 404;
+        });
+    });
+
     it('should share same context with handler', async () => {
         const app = new Cottage();
         app.use(async function testStart(ctx, next) {

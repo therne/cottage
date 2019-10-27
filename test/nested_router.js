@@ -1,5 +1,4 @@
-
-const Cottage = require('..');
+const { Cottage } = require('..');
 const simulate = require('./testutil');
 
 
@@ -57,15 +56,32 @@ describe('Nested Router', function(){
     it('can return 404 Error', async () => {
         const noapp = new Cottage();
         const noappSub = new Cottage();
-        noappSub.setNotFoundHandler(async (ctx, next) => {
-            ctx.response.body = 'nowhere man';
-            ctx.response.status = 404;
+        noappSub.use(async (ctx, next) => {
             await next();
+            if (ctx.status === 404) {
+                ctx.body = 'nowhere man';
+                ctx.status = 404;
+            }
         });
         noapp.use('/nowhere', noappSub);
 
         const { res } = await simulate(noapp, 'GET', '/nowhere/nahe');
         res.assert(404, 'nowhere man');
+    });
+
+    it("can use root router's not found handler as a default", async () => {
+        const app = new Cottage();
+        app.use(async (ctx, next) => {
+            await next();
+            if (ctx.status === 404) {
+                ctx.response.body = 'love from root router';
+                ctx.status = 404;
+            }
+        });
+        app.use('/nowhere', new Cottage());
+
+        const { res } = await simulate(app, 'GET', '/nowhere/man');
+        res.assert(404, 'love from root router');
     });
 
     it('should map parameter ', async () => {

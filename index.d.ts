@@ -238,7 +238,7 @@ declare module cottage {
          * Creates a {@link cottage.Response} instance,
          * which can be returned in a cottage middleware.
          */
-        constructor(status: number, body: ResponseBody);
+        constructor(status: number, body?: ResponseBody);
 
         /**
          * Predefine a response globally with given name.
@@ -278,7 +278,7 @@ declare module cottage {
         string | Buffer // written
         | Stream // piped
         | Object | Array<any> // json-stringified (with Content-Type: application/json)
-        | null // no content response
+        | null; // no content response
 
     /**
      * Cottage accepts both cottage-style middleware and koa-style middleware.

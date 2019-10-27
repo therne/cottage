@@ -1,8 +1,6 @@
-"use strict";
-
 // import base modules
 const request = require("request");
-const cottage = require("cottage");
+const Cottage = require("../..");
 const bodyParser = require('koa-bodyparser');
 const serve = require("koa-static");
 
@@ -13,7 +11,7 @@ let appDir = path.dirname(require.main.filename);
 let setting = require("./setting.json");
 
 // using bodyparser and static serving
-const app = cottage();
+const app = new Cottage();
 app.use(bodyParser());
 app.use(serve("."));
 
@@ -24,8 +22,8 @@ app.use(serve("."));
  * @param userId        User's unique ID in slack.
  * @returns {Promise}   Promise of Response. (for Generator)
  */
-function getUserName (token, userId) {
-    let url = `https://slack.com/api/users.info?token=${token}&user=${userId}`;
+async function getUserName(token, userId) {
+    const url = `https://slack.com/api/users.info?token=${token}&user=${userId}`;
     return new Promise(function (fulfill, reject) {
         request.get(url, { json: true }, function (err, res, body) {
             if (err) reject(err);
@@ -58,11 +56,11 @@ function writeToFile (path, data) {
 
 // HTTP POST /logger
 // Register this link for Slack Outgoing Webhook.
-app.post("/logger", function *(req) {
-    let userName = req.body.user_name;
-    let text = req.body.text;
-    let channelName = req.body.channel_name;
-    let timestamp = req.body.timestamp;
+app.post("/logger", async function (ctx) {
+    let userName = ctx.request.body.user_name;
+    let text = ctx.request.body.text;
+    let channelName = ctx.request.body.channel_name;
+    let timestamp = ctx.request.body.timestamp;
 
     let date = new Date(timestamp * 1000)
     let formatDate = `${d.getFullYear()}${formatText(String(d.getMonth() + 1), 2)}${formatText(String(d.getDate()), 2)}`
@@ -74,7 +72,7 @@ app.post("/logger", function *(req) {
     var data = `[${formatDate}] ${userName}: ${text}\r\n`;
     var userNames = {};
     for (let userId of userIds)
-        userNames[userId] = yield getUserName(setting.token, userId);
+        userNames[userId] = await getUserName(setting.token, userId);
 
     for (let userName in userNames)
         if (userNames.hasOwnProperty(userName))

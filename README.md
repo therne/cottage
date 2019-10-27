@@ -5,7 +5,7 @@
 [![Coverage report][coveralls-image]][coveralls-url]
 [![npm Version][npm-image]][npm-url]  
 
-Cottage is the fastest, simple, and intuitive server framework built on [Koa.js](http://koajs.com).<br>
+Cottage is the fastest, simple, and intuitive router for [Koa.js](http://koajs.com).<br>
 
 - **Fastest Framework on Node** - See [performance](#performance)
 - **100% Koa.js compatible** - You can use all plugins and modules of Koa v2.

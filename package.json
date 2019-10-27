@@ -27,15 +27,15 @@
   "homepage": "https://therne.github.io/cottage",
   "devDependencies": {
     "async": "^1.5.2",
-    "coveralls": "^3.0.2",
+    "coveralls": "^3.0.7",
     "delegates": "^0.1.0",
-    "istanbul": "^0.4.3",
+    "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "should": "^13.2.1"
+    "should": "^13.2.3"
   },
   "dependencies": {
+    "koa": "^2.10.0",
     "koa-compose": "^4.1.0",
-    "koa": "^2.5.2",
     "koa-mount": "^3.0.0"
   }
 }

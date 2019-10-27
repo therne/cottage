@@ -1,6 +1,5 @@
-
-const Application = require('./lib/application');
-const Response = require('./lib/response');
+const Application = require('./lib/Application');
+const Response = require('./lib/Response');
 
 module.exports = Application;
 module.exports.Response = Response;

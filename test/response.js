@@ -1,5 +1,4 @@
-
-const Cottage = require('..');
+const { Cottage } = require('..');
 const Response = Cottage.Response;
 const simulate = require('./testutil');
 

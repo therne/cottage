@@ -1,10 +1,7 @@
 const Application = require('./lib/Application');
 const Response = require('./lib/Response');
 
-class LegacyCottage extends Application {
-    static Cottage = Application;
-    static Response = Response;
-
+class LegacyCottageModule extends Application {
     constructor(...args) {
         super(...args);
         console.warn('cottage: Warning: importing cottage as a default import is deprecated.');
@@ -12,11 +9,14 @@ class LegacyCottage extends Application {
     }
 }
 
-Object.defineProperty(LegacyCottage, 'Status', {
+LegacyCottageModule.Cottage = Application;
+LegacyCottageModule.Response = Response;
+
+Object.defineProperty(LegacyCottageModule, 'Status', {
     get() {
         console.warn('cottage: Warning: Status is deprecated. use cottage.Response instead');
         return Response;
     }
 });
 
-module.exports = LegacyCottage;
+module.exports = LegacyCottageModule;

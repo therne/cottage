@@ -22,23 +22,28 @@ To use it with older versions, you must use Babel's [require hook](http://babelj
 
 ### Example
 ```js
-const Cottage = require('cottage');
+import { Cottage, Response } from 'cottage';
 const app = new Cottage();
 
-app.post('/', async () => 'Hello world!');
+app.post('/', async ctx => 'Hello world!');
 
 app.get('/hello', async ctx => {
     const hello = await asyncHello();
-    return hello; // just return data
+    return hello; // just return and it will be converted as a JSON body
 });
 
-// 100% fully compatible with koa
-app.use(koaMiddleware());
+app.get('/nowhere', async ctx => {
+    // needs fancy response code?
+    return new Response(404, { error: 'not found' });
+});
 
-// because cottage is built on the top of Koa.
-(new Koa).use(app.callback()).listen(8080);
+// 100% fully compatible with koa...
+app.use(anyKoaMiddleware());
 
-// simple shorthand without importing Koa.
+// ...because cottage is built on the top of Koa.
+(new Koa).use(app.callback()).listen(...);
+
+// or a simple shorthand without importing Koa.
 app.listen(8080);
 ```
 

@@ -1,5 +1,4 @@
-
-const Cottage = require('..');
+const { Cottage } = require('..');
 const simulate = require('./testutil');
 const crypto = require('crypto');
 

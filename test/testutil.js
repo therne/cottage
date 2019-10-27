@@ -1,4 +1,4 @@
-
+const { expect } = require('chai');
 const delegate = require('delegates');
 
 /**
@@ -17,9 +17,9 @@ module.exports = async function simulateRequest(app, method, path) {
             /**
              * simple test helper function.
              */
-            assert: function(status, body) {
-                this.status.should.equal(status);
-                this.body.toString().should.equal(body.toString());
+            assert(status, body) {
+                expect(this.status).to.equal(status);
+                expect(this.body.toString()).to.equal(body.toString());
             },
             res: {
                 body: 'Not Found',

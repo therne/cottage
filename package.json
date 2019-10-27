@@ -6,9 +6,10 @@
     "node": ">= 8.0.0"
   },
   "main": "index.js",
+  "typings": "./index.d.ts",
   "scripts": {
-    "test": "mocha --require should --harmony test",
-    "test-travis": "node --harmony node_modules/istanbul/lib/cli.js cover _mocha -- --require should -u exports -R spec test"
+    "test": "mocha",
+    "test-travis": "node --harmony node_modules/istanbul/lib/cli.js cover _mocha -- -u exports -R spec test"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,8 @@
     "delegates": "^0.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "should": "^13.2.3"
+    "@types/koa": "^2.0.51",
+    "chai": "^4.2.0"
   },
   "dependencies": {
     "koa": "^2.10.0",

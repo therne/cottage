@@ -1,3 +1,4 @@
+const { expect } = require('chai');
 const { Cottage, Response } = require('..');
 const simulate = require('./testutil');
 
@@ -29,9 +30,9 @@ describe('A Response', function(){
 
         it('should resolve predefined response', function() {
             const status = Response.from('predefine_something');
-            status.status.should.equal(401);
-            status.body.code.should.equal('OH_ERROR');
-            status.body.msg.should.equal('Oh Error Error');
+            expect(status.status).to.equal(401);
+            expect(status.body.code).to.equal('OH_ERROR');
+            expect(status.body.msg).to.equal('Oh Error Error');
         });
     })
 });

@@ -3,7 +3,7 @@ import { ListenOptions } from 'net';
 import * as Stream from 'stream';
 import { DefaultState, DefaultContext, ParameterizedContext, Middleware as KoaMiddleware } from 'koa';
 
-declare module cottage {
+declare namespace cottage {
 
     /**
      * Cottage is alias of {@link cottage.Application}.
@@ -283,10 +283,10 @@ declare module cottage {
     /**
      * Cottage accepts both cottage-style middleware and koa-style middleware.
      */
-    type KoaCompatibleMiddleware<StateT, CustomT> =
+    type KoaCompatibleMiddleware<StateT = DefaultState, CustomT = DefaultState> =
         Middleware<StateT, CustomT> | KoaMiddleware<StateT, CustomT>;
 
-    type Handler<StateT, CustomT> =
+    type Handler<StateT = DefaultState, CustomT = DefaultContext> =
         Router | KoaCompatibleMiddleware<StateT, CustomT>;
 }
 

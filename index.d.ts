@@ -60,7 +60,7 @@ declare namespace cottage {
          *     continue executing the middleware chain.
          *     If you don't, the not found handler will not be executed.
          */
-        setNotFoundHandler(handler: KoaCompatibleMiddleware);
+        setNotFoundHandler(handler: KoaCompatibleMiddleware): void;
 
         /**
          * Mounts the middleware function(s) at the path.
@@ -78,8 +78,8 @@ declare namespace cottage {
          * It does the same thing that koa-mount does. Because of this,
          * you can use some koa.js middlewares (ex: koa-serve) without using koa-mount.
          */
-        use(...middlewares: Handler[]);
-        use(path: string, ...middlewares: Handler[]);
+        use(...middlewares: Handler[]): void;
+        use(path: string, ...middlewares: Handler[]): void;
 
         /**
          * Handles all methods with a given path.
@@ -88,58 +88,58 @@ declare namespace cottage {
          * `router.use()` will execute notFoundHandler if nothing is matched,
          * however `router.all()` will always match the handler, thus not calling notFoundHandler.
          */
-        all(...handlers: Handler[]);
-        all(path: string, ...handlers: Handler[]);
+        all(...handlers: Handler[]): void;
+        all(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP GET method.
          */
-        get(path: string, ...handlers: Handler[]);
+        get(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP POST method.
          */
-        post(path: string, ...handlers: Handler[]);
+        post(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP PUT method.
          */
-        put(path: string, ...handlers: Handler[]);
+        put(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP LINK method.
          */
-        link(path: string, ...handlers: Handler[]);
+        link(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP UNLINK method.
          */
-        unlink(path: string, ...handlers: Handler[]);
+        unlink(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP DELETE method.
          */
-        delete(path: string, ...handlers: Handler[]);
+        delete(path: string, ...handlers: Handler[]): void;
 
         /**
          * Alias for Router#delete() because it's a reserved word.
          */
-        del(path: string, ...handlers: Handler[]);
+        del(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP HEAD method.
          */
-        head(path: string, ...handlers: Handler[]);
+        head(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP OPTIONS method.
          */
-        options(path: string, ...handlers: Handler[]);
+        options(path: string, ...handlers: Handler[]): void;
 
         /**
          * Handles HTTP PATCH method.
          */
-        patch(path: string, ...handlers: Handler[]);
+        patch(path: string, ...handlers: Handler[]): void;
     }
 
     class Route {
@@ -159,15 +159,15 @@ declare namespace cottage {
          * It does the same thing that koa-mount does. Because of this,
          * you can use some koa.js middlewares (ex: koa-serve) without using koa-mount.
          */
-        use(...middlewares: Handler[]);
-        use(path: string, ...middlewares: Handler[]);
+        use(...middlewares: Handler[]): Route;
+        use(path: string, ...middlewares: Handler[]): Route;
 
         /**
          * NOTE: Different from express, This method is same as 'use' method in Cottage!
          * (because cottage doesn't have an router stack)
          */
-        all(...handlers: Handler[]);
-        all(path: string, ...handlers: Handler[]);
+        all(...handlers: Handler[]): Route;
+        all(path: string, ...handlers: Handler[]): Route;
 
         /**
          * Handles HTTP GET method.
@@ -244,7 +244,7 @@ declare namespace cottage {
          * Predefine a response globally with given name.
          * The defined response can be loaded through `Response.from(name)`.
          */
-        static define(name: string, status: number, body: ResponseBody);
+        static define(name: string, status: number, body: ResponseBody): void;
 
         /**
          * Loads predefined status registered with given name.

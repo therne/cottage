@@ -257,10 +257,16 @@ declare namespace cottage {
         strict: boolean;
     }
 
+    interface CottageContext {
+        request: Request & {
+            params: Record<string, string>;
+        };
+    }
+
     type Context<
         StateT = DefaultState,
         CustomT = DefaultContext,
-    > = ParameterizedContext<StateT, CustomT>;
+    > = ParameterizedContext<StateT, CottageContext & CustomT>;
 
     /**
      * Cottage middleware is almost same with {@link KoaMiddleware},
@@ -283,8 +289,8 @@ declare namespace cottage {
     /**
      * Cottage accepts both cottage-style middleware and koa-style middleware.
      */
-    type KoaCompatibleMiddleware<StateT = DefaultState, CustomT = DefaultState> =
-        Middleware<StateT, CustomT> | KoaMiddleware<StateT, CustomT>;
+    type KoaCompatibleMiddleware<StateT = DefaultState, CustomT = DefaultContext> =
+        Middleware<StateT, CustomT> | KoaMiddleware<StateT, CottageContext & CustomT>;
 
     type Handler<StateT = DefaultState, CustomT = DefaultContext> =
         Router | KoaCompatibleMiddleware<StateT, CustomT>;

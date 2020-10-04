@@ -253,8 +253,8 @@ declare namespace cottage {
     }
 
     type RouterOptions = {
-        caseSensitive: boolean;
-        strict: boolean;
+        caseSensitive?: boolean;
+        strict?: boolean;
     }
 
     type Context<

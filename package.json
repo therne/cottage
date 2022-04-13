@@ -31,7 +31,7 @@
   },
   "homepage": "https://therne.github.io/cottage",
   "devDependencies": {
-    "async": "^1.5.2",
+    "async": "^3.2.2",
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
     "delegates": "^0.1.0",
